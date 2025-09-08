@@ -62,13 +62,11 @@ const SkillsSection = () => {
     const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
-      if (isVisible) {
         const timeout = setTimeout(() => {
           setProgress(skill.level);
         }, index * 150 + 300);
         return () => clearTimeout(timeout);
-      }
-    }, [isVisible, skill.level, index]);
+    }, [skill.level, index]);
 
     return (
       <div 
@@ -98,11 +96,10 @@ const SkillsSection = () => {
             
             <div className="relative h-2 bg-muted rounded-full overflow-hidden">
             <div
-  className={`absolute top-0 left-0 h-full ${gradient} 
-              rounded-full transition-all duration-1000 ease-out 
-              sm:h-2 md:h-3 lg:h-4`}
-  style={{ width: `${progress}%` }}
-/>
+                className={`absolute top-0 left-0 h-full ${gradient} rounded-full transition-all duration-1000 ease-out`}
+                style={{ width: `${progress}%` }}
+              />
+
               {isHovered && (
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
               )}
