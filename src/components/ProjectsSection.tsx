@@ -181,7 +181,7 @@ const ProjectsSection = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-white/30 text-white hover:bg-white hover:text-foreground"
+              className="border-white/30 text-foreground hover:bg-white hover:text-foreground"
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Let's Connect

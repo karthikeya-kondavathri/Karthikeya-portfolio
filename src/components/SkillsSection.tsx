@@ -26,7 +26,7 @@ const SkillsSection = () => {
       skills: [
         { name: 'Node.js', level: 80, icon: '🟢', description: 'Server-side JavaScript runtime' },
         { name: 'Express.js', level: 82, icon: '🚀', description: 'Web application framework' },
-        { name: 'Python', level: 75, icon: '🐍', description: 'Scripting & automation' }
+        { name: 'Python', level: 80, icon: '🐍', description: 'Scripting & automation' }
       ]
     },
     {
@@ -34,7 +34,7 @@ const SkillsSection = () => {
       description: 'Data management and development workflow',
       gradient: 'bg-gradient-to-r from-accent to-primary',
       skills: [
-        { name: 'SQLite', level: 78, icon: '🗄️', description: 'Lightweight relational database' },
+        { name: 'SQLite', level: 85, icon: '🗄️', description: 'Lightweight relational database' },
         { name: 'Git', level: 85, icon: '📚', description: 'Version control & collaboration' }
       ]
     }
@@ -97,10 +97,12 @@ const SkillsSection = () => {
             </p>
             
             <div className="relative h-2 bg-muted rounded-full overflow-hidden">
-              <div
-                className={`absolute top-0 left-0 h-full ${gradient} rounded-full transition-all duration-1000 ease-out`}
-                style={{ width: `${progress}%` }}
-              />
+            <div
+  className={`absolute top-0 left-0 h-full ${gradient} 
+              rounded-full transition-all duration-1000 ease-out 
+              sm:h-2 md:h-3 lg:h-4`}
+  style={{ width: `${progress}%` }}
+/>
               {isHovered && (
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
               )}

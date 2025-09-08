@@ -38,7 +38,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-56">
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
@@ -97,7 +97,7 @@ const HeroSection = () => {
             <Button 
               size="lg" 
               variant="outline"
-              className="border-white/30 text-white hover:bg-white hover:text-gray-900 transition-all duration-300 text-lg px-8 py-6 rounded-xl backdrop-blur-sm"
+              className="border-white/30 text-orange hover:bg-white hover:text-gray-900 transition-all duration-300 text-lg px-8 py-6 rounded-xl backdrop-blur-sm"
             >
               <Download className="mr-2 h-5 w-5" />
               Download Resume
