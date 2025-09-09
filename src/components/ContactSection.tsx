@@ -27,7 +27,6 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
     setTimeout(() => {
       toast({
         title: "Message Sent! 🚀",
@@ -84,30 +83,35 @@ const ContactSection = () => {
   ];
 
   return (
-    <section id="contact" className="py-20 bg-background relative overflow-hidden">
+    <section id="contact" className="py-16 sm:py-20 bg-background relative overflow-hidden">
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, hsl(var(--primary)) 2px, transparent 2px), 
-                           radial-gradient(circle at 75% 75%, hsl(var(--secondary)) 2px, transparent 2px)`,
-          backgroundSize: '50px 50px'
-        }}></div>
+      <div className="absolute inset-0 opacity-5 -z-10">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, hsl(var(--primary)) 2px, transparent 2px), 
+                             radial-gradient(circle at 75% 75%, hsl(var(--secondary)) 2px, transparent 2px)`,
+            backgroundSize: '40px 40px'
+          }}
+        ></div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        {/* Title */}
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground mb-4 sm:mb-6">
             Let's <span className="text-gradient">Connect</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Ready to bring your ideas to life? Let's discuss your next project and create something amazing together.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        {/* Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Contact Information */}
-          <div className="lg:col-span-1 space-y-6">
-            <Card className="glow-card">
+          <div className="space-y-6">
+            <Card className="transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Mail className="h-5 w-5 text-primary" />
@@ -115,21 +119,20 @@ const ContactSection = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {contactInfo.map((info, index) => (
+                {contactInfo.map((info) => (
                   <a
                     key={info.label}
                     href={info.href}
                     target={info.href.startsWith('http') ? '_blank' : undefined}
                     rel={info.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors group fade-in"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
                   >
-                    <div className={`p-2 rounded-lg bg-primary/10 ${info.color} group-hover:scale-110 transition-transform`}>
+                    <div className={`p-2 rounded-lg bg-primary/10 ${info.color} transition-transform group-hover:scale-110`}>
                       <info.icon className="h-4 w-4" />
                     </div>
                     <div>
                       <div className="text-sm text-muted-foreground">{info.label}</div>
-                      <div className="font-medium text-foreground">{info.value}</div>
+                      <div className="font-medium text-foreground break-words">{info.value}</div>
                     </div>
                   </a>
                 ))}
@@ -137,16 +140,16 @@ const ContactSection = () => {
             </Card>
 
             {/* Resume Download */}
-            <Card className="glow-card">
+            <Card className="transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 transition-transform hover:scale-110">
                   <Download className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="font-semibold mb-2">Resume</h3>
                 <p className="text-sm text-muted-foreground mb-4">
                   Download my complete resume to learn more about my experience and skills.
                 </p>
-                <Button className="w-full">
+                <Button className="w-full transition-transform hover:scale-105">
                   <Download className="h-4 w-4 mr-2" />
                   Download PDF
                 </Button>
@@ -154,18 +157,17 @@ const ContactSection = () => {
             </Card>
 
             {/* Social Links */}
-            <Card className="glow-card">
+            <Card className="transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <CardContent className="p-6">
                 <h3 className="font-semibold mb-4 text-center">Follow Me</h3>
-                <div className="flex justify-center gap-3">
-                  {socialLinks.map((social, index) => (
+                <div className="flex justify-center gap-3 flex-wrap">
+                  {socialLinks.map((social) => (
                     <a
                       key={social.label}
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`p-3 rounded-full bg-muted hover:text-white transition-all duration-300 ${social.bg} fade-in`}
-                      style={{ animationDelay: `${index * 0.1}s` }}
+                      className={`p-3 rounded-full bg-muted transition-all transform hover:scale-110 ${social.bg}`}
                     >
                       <social.icon className="h-5 w-5" />
                     </a>
@@ -177,13 +179,13 @@ const ContactSection = () => {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <Card className="glow-card">
+            <Card className="transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <CardHeader>
-                <CardTitle className="text-2xl">Send a Message</CardTitle>
+                <CardTitle className="text-xl sm:text-2xl">Send a Message</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <label htmlFor="name" className="text-sm font-medium">
                         Name *
@@ -195,7 +197,7 @@ const ContactSection = () => {
                         onChange={handleInputChange}
                         required
                         placeholder="Your full name"
-                        className="focus:ring-primary focus:border-primary"
+                        className="focus:ring-2 focus:ring-primary"
                       />
                     </div>
                     <div className="space-y-2">
@@ -210,7 +212,7 @@ const ContactSection = () => {
                         onChange={handleInputChange}
                         required
                         placeholder="your.email@example.com"
-                        className="focus:ring-primary focus:border-primary"
+                        className="focus:ring-2 focus:ring-primary"
                       />
                     </div>
                   </div>
@@ -226,7 +228,7 @@ const ContactSection = () => {
                       onChange={handleInputChange}
                       required
                       placeholder="What's this about?"
-                      className="focus:ring-primary focus:border-primary"
+                      className="focus:ring-2 focus:ring-primary"
                     />
                   </div>
 
@@ -242,14 +244,14 @@ const ContactSection = () => {
                       required
                       placeholder="Tell me about your project or just say hello..."
                       rows={6}
-                      className="focus:ring-primary focus:border-primary resize-none"
+                      className="resize-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
 
                   <Button 
                     type="submit" 
                     size="lg" 
-                    className="w-full bg-gradient-primary hover:opacity-90 transition-opacity"
+                    className="w-full transition-transform hover:scale-105"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
@@ -266,9 +268,9 @@ const ContactSection = () => {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-16">
-          <div className="inline-block p-8 bg-gradient-secondary rounded-2xl text-white fade-in">
-            <h3 className="text-xl font-bold mb-2">Ready to start your project?</h3>
+        <div className="text-center mt-12 sm:mt-16">
+          <div className="inline-block p-6 sm:p-8 bg-gradient-secondary rounded-2xl text-white transition-transform hover:scale-105 hover:shadow-lg">
+            <h3 className="text-lg sm:text-xl font-bold mb-2">Ready to start your project?</h3>
             <p className="text-white/90">
               Let's turn your ideas into reality. I'm just one message away!
             </p>
