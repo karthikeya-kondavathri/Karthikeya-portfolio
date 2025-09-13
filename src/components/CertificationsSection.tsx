@@ -2,15 +2,62 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Award, CheckCircle } from 'lucide-react';
 
+interface Certification {
+  title: string;
+  issuer: string;
+  date: string;
+  category: string;
+  icon: string;
+  skills: string[];
+  link?: string;
+}
+
 const CertificationsSection = () => {
-  const certifications = [
+  const certifications: Certification[] = [
+    {
+      title: 'React Js',
+      issuer: 'Nxtwave',
+      date: '2024',
+      category: 'Frontend',
+      icon: '⚛️',
+      skills: ['React JS','Frontend','Web Development'],
+      link: '#'
+    },
+    {
+      title: 'Node Js',
+      issuer: 'Nxtwave',
+      date: '2024',
+      category: 'Backend',
+      icon: '🐢',
+      skills: ['Node JS', 'Express JS', 'Backend Development'],
+      link: 'https://s3-ap-south-1.amazonaws.com/nkb-backend-ccbp-media-static/certificates/share/NHUEBSMIMS.png'
+    },
+    {
+      title: 'Developer Foundations',
+      issuer: 'Nxtwave',
+      date: '2024',
+      category: 'Project Management',
+      icon: '💻',
+      skills: ['Git', 'Command Line'],
+      link: 'https://s3-ap-south-1.amazonaws.com/nkb-backend-ccbp-media-static/certificates/share/CGXDAUAGAO.png'
+    },
+    {
+      title: 'JavaScript Essentials',
+      issuer: 'Nxtwave',
+      date: '2024',
+      category: 'Programming',
+      icon: '🟩',
+      skills: ['JavaScript', 'Programming', 'Web Development'],
+      link: 'https://s3-ap-south-1.amazonaws.com/nkb-backend-ccbp-media-static/certificates/share/VHHQTPILHK.png'
+    },
     {
       title: 'Introduction to Databases - SQL',
       issuer: 'Nxtwave',
       date: '2024',
       category: 'Database',
       icon: '🗄️',
-      skills: ['SQL', 'Database Design', 'Data Querying']
+      skills: ['SQL', 'Database Design', 'Data Querying'],
+      link: 'https://certificates.ccbp.in/academy/introduction-to-databases?id=EJAQMKHWNU'
     },
     {
       title: 'Dynamic Web Application',
@@ -18,7 +65,8 @@ const CertificationsSection = () => {
       date: '2024',
       category: 'Full-Stack',
       icon: '⚡',
-      skills: ['JavaScript', 'Node.js', 'Express', 'APIs']
+      skills: ['JavaScript', 'Node.js', 'Express', 'APIs'],
+      link: 'https://certificates.ccbp.in/academy/dynamic-web-application?id=GQMDGGREFB'
     },
     {
       title: 'Programming Foundations with Python',
@@ -26,7 +74,8 @@ const CertificationsSection = () => {
       date: '2024',
       category: 'Programming',
       icon: '🐍',
-      skills: ['Python', 'OOP', 'Data Structures', 'Algorithms']
+      skills: ['Python', 'OOP', 'Data Structures', 'Algorithms'],
+      link: 'https://certificates.ccbp.in/academy/programming-foundations-with-python?id=JRFSRPUBTT'
     },
     {
       title: 'Responsive Website',
@@ -34,7 +83,8 @@ const CertificationsSection = () => {
       date: '2024',
       category: 'Frontend',
       icon: '📱',
-      skills: ['HTML', 'CSS', 'Bootstrap', 'Responsive Design']
+      skills: ['HTML', 'CSS', 'Bootstrap', 'Flexbox', 'Responsive Design'],
+      link: 'https://certificates.ccbp.in/academy/build-your-own-responsive-website?id=UGJGFOIKTK'
     },
     {
       title: 'Static Website',
@@ -42,15 +92,18 @@ const CertificationsSection = () => {
       date: '2024',
       category: 'Frontend',
       icon: '🌐',
-      skills: ['HTML', 'CSS', 'Web Fundamentals']
+      skills: ['HTML', 'CSS', 'Web Fundamentals'],
+      link: 'https://certificates.ccbp.in/academy/static-website?id=QEOHQRXGYC'
     },
     {
       title: 'XPM 4.0 Fundamentals',
-      issuer: 'Industry Partner',
+      issuer: 'Nxtwave',
       date: '2024',
       category: 'Project Management',
       icon: '📊',
-      skills: ['Project Management', 'Agile', 'Methodology']
+      skills: ['Creating Personal Identity', 'Integrity', 'Setting Goals & Priorities'],
+      link: 'https://certificates.ccbp.in/academy/xpm-4-0-fundamentals?id=DSJLYQAFMI'
+
     }
   ];
 
@@ -80,10 +133,10 @@ const CertificationsSection = () => {
         {/* Stats Section */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {[
-            { label: 'Certifications', value: '6+', icon: '🏆' },
-            { label: 'Technologies', value: '8+', icon: '💻' },
+            { label: 'Certifications', value: '10+', icon: '🏆' },
+            { label: 'Technologies', value: '9+', icon: '💻' },
             { label: 'Hours Learning', value: '100+', icon: '⏰' },
-            { label: 'Projects Built', value: '3+', icon: '🚀' }
+            { label: 'Projects Built', value: '5+', icon: '🚀' }
           ].map((stat, index) => (
             <Card key={stat.label} className="text-center p-6 glow-card fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
               <div className="text-3xl mb-2">{stat.icon}</div>
@@ -138,7 +191,18 @@ const CertificationsSection = () => {
 
                   <div className="flex items-center gap-2 text-sm text-primary pt-2">
                     <CheckCircle className="h-4 w-4" />
-                    <span>Verified Certification</span>
+                    {cert.link ? (
+                      <a 
+                        href={cert.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="hover:underline transition-colors"
+                      >
+                        <span>Verified Certification</span>
+                      </a>
+                    ) : (
+                      <span>Verified Certification</span>
+                    )}
                   </div>
                 </div>
               </CardContent>

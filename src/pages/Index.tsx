@@ -8,7 +8,11 @@ import CertificationsSection from '@/components/CertificationsSection';
 import ContactSection from '@/components/ContactSection';
 
 const Index = () => {
+  console.log('Index component rendering...');
+  
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     // Add scroll animation triggers
     const observerOptions = {
       threshold: 0.1,
@@ -32,31 +36,26 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background font-primary">
-      <Navigation />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <CertificationsSection />
-        <ContactSection />
-      </main>
-      
-      {/* Footer */}
-      <footer className="bg-foreground text-background py-8">
-        <div className="container mx-auto px-6 text-center">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>
-              <p className="text-sm">
-                © 2024 Karthikeya Kondavathri. All rights reserved.
-              </p>
-            </div>
-            <div className="flex items-center gap-6 text-sm">
-              <span>Made with ❤️ using React & TypeScript</span>
-            </div>
+      <div style={{ minHeight: '100vh', backgroundColor: 'hsl(var(--background))', color: 'hsl(var(--foreground))' }}>
+        <Navigation />
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <SkillsSection />
+          <ProjectsSection />
+          <CertificationsSection />
+          <ContactSection />
+        </main>
+        
+        {/* Footer */}
+        <footer className="bg-foreground text-background py-8">
+          <div className="container mx-auto px-6 text-center">
+            <p className="text-sm">
+              © 2024 Karthikeya Kondavathri. All rights reserved.
+            </p>
           </div>
-        </div>
-      </footer>
+        </footer>
+      </div>
     </div>
   );
 };

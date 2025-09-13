@@ -19,30 +19,36 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      
-      // Update active section based on scroll position
-      const sections = navItems.map(item => item.id);
-      const currentSection = sections.find(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+      if (typeof window !== 'undefined') {
+        setIsScrolled(window.scrollY > 50);
+        
+        // Update active section based on scroll position
+        const sections = navItems.map(item => item.id);
+        const currentSection = sections.find(section => {
+          const element = document.getElementById(section);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            return rect.top <= 100 && rect.bottom >= 100;
+          }
+          return false;
+        });
+        
+        if (currentSection) {
+          setActiveSection(currentSection);
         }
-        return false;
-      });
-      
-      if (currentSection) {
-        setActiveSection(currentSection);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', handleScroll);
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
   }, [navItems]);
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    if (typeof window !== 'undefined') {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    }
     setIsMobileMenuOpen(false);
   };
 
@@ -132,12 +138,14 @@ const Navigation = () => {
       )}
 
       {/* Scroll Progress Indicator */}
-      <div 
-        className="fixed top-0 left-0 h-1 bg-gradient-primary z-50 transition-all duration-300"
-        style={{
-          width: `${((window.scrollY) / (document.documentElement.scrollHeight - window.innerHeight)) * 100}%`
-        }}
-      />
+      {typeof window !== 'undefined' && (
+        <div 
+          className="fixed top-0 left-0 h-1 bg-gradient-primary z-50 transition-all duration-300"
+          style={{
+            width: `${((window.scrollY) / (document.documentElement.scrollHeight - window.innerHeight)) * 100}%`
+          }}
+        />
+      )}
 
       {/* Floating Action Button - Back to Top */}
       {isScrolled && (

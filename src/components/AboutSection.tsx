@@ -61,10 +61,7 @@ const AboutSection = () => {
                 <h3 className="text-xl sm:text-2xl font-semibold">My Journey</h3>
               </div>
               <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
-                Currently pursuing my education while continuously learning and
-                improving my skills through hands-on projects and industry
-                certifications. Based in Pune, Maharashtra, I'm always eager to
-                take on new challenges.
+              I actively enhance my expertise through practical projects and industry certifications, driven by a commitment to continuous learning and self-improvement. Passionate about tackling new challenges, I aim to grow consistently while making meaningful contributions. 
               </p>
             </div>
           </div>

@@ -7,34 +7,37 @@ import { useToast } from '@/hooks/use-toast';
 import { Mail, Phone, MapPin, Download, Send, Github, Linkedin, Twitter } from 'lucide-react';
 
 const ContactSection = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  // 🔥 Custom handleSubmit using fetch (no redirect)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
+    try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+
+      await fetch("https://formsubmit.co/karthikkondavatri@gmail.com", {
+        method: "POST",
+        body: formData,
+      });
+
       toast({
         title: "Message Sent! 🚀",
         description: "Thank you for reaching out. I'll get back to you soon!",
       });
-      setFormData({ name: '', email: '', subject: '', message: '' });
+
+      form.reset(); // clears form after success
+    } catch (error) {
+      toast({
+        title: "Oops! Something went wrong ❌",
+        description: "Please try again later.",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   const contactInfo = [
@@ -65,19 +68,19 @@ const ContactSection = () => {
     {
       icon: Github,
       label: 'GitHub',
-      href: '#',
+      href: 'https://github.com/karthikeya-kondavathri',
       bg: 'hover:bg-gray-900'
     },
     {
       icon: Linkedin,
       label: 'LinkedIn',
-      href: '#',
+      href: 'https://www.linkedin.com/in/karthikeya-kondavathri',
       bg: 'hover:bg-blue-600'
     },
     {
       icon: Twitter,
       label: 'Twitter',
-      href: '#',
+      href: 'https://x.com/Karthikeya_K_',
       bg: 'hover:bg-blue-400'
     }
   ];
@@ -149,9 +152,11 @@ const ContactSection = () => {
                 <p className="text-sm text-muted-foreground mb-4">
                   Download my complete resume to learn more about my experience and skills.
                 </p>
-                <Button className="w-full transition-transform hover:scale-105">
-                  <Download className="h-4 w-4 mr-2" />
-                  Download PDF
+                <Button asChild className="w-full transition-transform hover:scale-105">
+                  <a href="/Karthikeya-resume.pdf" download>
+                    <Download className="h-4 w-4 mr-2" />
+                    Download PDF
+                  </a>
                 </Button>
               </CardContent>
             </Card>
@@ -190,30 +195,13 @@ const ContactSection = () => {
                       <label htmlFor="name" className="text-sm font-medium">
                         Name *
                       </label>
-                      <Input
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Your full name"
-                        className="focus:ring-2 focus:ring-primary"
-                      />
+                      <Input id="name" name="name" required placeholder="Your full name" className="focus:ring-2 focus:ring-primary" />
                     </div>
                     <div className="space-y-2">
                       <label htmlFor="email" className="text-sm font-medium">
                         Email *
                       </label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="your.email@example.com"
-                        className="focus:ring-2 focus:ring-primary"
-                      />
+                      <Input id="email" name="email" type="email" required placeholder="your.email@example.com" className="focus:ring-2 focus:ring-primary" />
                     </div>
                   </div>
 
@@ -221,32 +209,19 @@ const ContactSection = () => {
                     <label htmlFor="subject" className="text-sm font-medium">
                       Subject *
                     </label>
-                    <Input
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      required
-                      placeholder="What's this about?"
-                      className="focus:ring-2 focus:ring-primary"
-                    />
+                      <Input id="subject" name="subject" required placeholder="What's this about?" className="focus:ring-2 focus:ring-primary" />
                   </div>
 
                   <div className="space-y-2">
                     <label htmlFor="message" className="text-sm font-medium">
                       Message *
                     </label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      required
-                      placeholder="Tell me about your project or just say hello..."
-                      rows={6}
-                      className="resize-none focus:ring-2 focus:ring-primary"
-                    />
+                    <Textarea id="message" name="message" required placeholder="Tell me about your project or just say hello..." rows={6} className="resize-none focus:ring-2 focus:ring-primary" />
                   </div>
+
+                  {/* Hidden Fields */}
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_template" value="table" />
 
                   <Button 
                     type="submit" 

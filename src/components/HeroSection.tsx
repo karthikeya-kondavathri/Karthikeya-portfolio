@@ -15,6 +15,8 @@ const HeroSection = () => {
     "Tech Enthusiast",
   ];
 
+  const emojis = ["🔥", "🚀", "✨", "🎉", "💻", "⚡", "😎", "🌟"];
+
   useEffect(() => {
     const currentTitle = titles[currentIndex];
     const timeout = setTimeout(() => {
@@ -34,13 +36,46 @@ const HeroSection = () => {
   }, [displayText, currentIndex, isDeleting, titles]);
 
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    if (typeof window !== 'undefined') {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // --- Emoji click effect ---
+  const handleEmojiClick = (e: React.MouseEvent) => {
+    if (typeof window === 'undefined') return;
+    
+    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+    const span = document.createElement("span");
+    span.textContent = emoji;
+    span.style.position = "absolute";
+    span.style.left = e.clientX + "px";
+    span.style.top = e.clientY + "px";
+    span.style.fontSize = "1.5rem";
+    span.style.pointerEvents = "none";
+    span.style.transition = "all 1.2s ease-out";
+    span.style.opacity = "1";
+    span.style.zIndex = "9999";
+
+    document.body.appendChild(span);
+
+    // Trigger animation
+    requestAnimationFrame(() => {
+      span.style.transform = "translateY(-80px) scale(1.5)";
+      span.style.opacity = "0";
+    });
+
+    // Remove after animation
+    setTimeout(() => {
+      span.remove();
+    }, 1200);
   };
 
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-32 sm:pt-40 md:pt-48"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 sm:pt-32 md:pt-40"
+      onClick={handleEmojiClick} // <--- Added here
     >
       {/* Background Image */}
       <div
@@ -48,7 +83,7 @@ const HeroSection = () => {
         style={{ backgroundImage: `url(${heroBackground})` }}
       />
 
-      {/* Animated gradient background */}
+      {/* Animated gradient overlay */}
       <div className="absolute inset-0 hero-bg opacity-80"></div>
 
       {/* Floating particles */}
@@ -56,7 +91,7 @@ const HeroSection = () => {
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white/20 rounded-full animate-float"
+            className="absolute w-1 h-1 sm:w-1.5 sm:h-1.5 bg-white/20 rounded-full animate-float"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -70,7 +105,7 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <div className="fade-in visible">
           {/* Heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6">
+          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white mb-3 sm:mb-6">
             Hi, I'm{" "}
             <span className="text-gradient bg-gradient-to-r from-white to-primary-glow">
               Karthikeya
@@ -79,35 +114,38 @@ const HeroSection = () => {
           </h1>
 
           {/* Typing animation */}
-          <div className="h-10 sm:h-12 md:h-16 mb-6 sm:mb-8">
-            <h2 className="text-lg sm:text-2xl md:text-4xl font-medium text-white/90">
+          <div className="h-8 sm:h-10 md:h-14 mb-5 sm:mb-8">
+            <h2 className="text-base sm:text-2xl md:text-4xl font-medium text-white/90">
               <span className="typing-text">{displayText}</span>
             </h2>
           </div>
 
           {/* Subtitle */}
-          <p className="text-sm sm:text-base md:text-xl text-white/80 mb-8 sm:mb-12 max-w-xl md:max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-base md:text-lg text-white/80 mb-6 sm:mb-10 max-w-sm sm:max-w-xl md:max-w-2xl mx-auto leading-relaxed">
             Passionate about creating responsive, dynamic, and user-friendly
             applications with modern web technologies
           </p>
 
-          {/* Buttons (fixed width issue) */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-12 sm:mb-16">
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center mb-10 sm:mb-14 w-full sm:w-auto">
             <Button
               size="sm"
-              className="bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 text-sm sm:text-base md:text-lg px-6 sm:px-8 md:px-10 py-2 sm:py-4 md:py-5 rounded-lg sm:rounded-xl"
+              className="w-full sm:w-auto bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 transition-all duration-300 text-sm sm:text-base px-5 sm:px-8 py-2 sm:py-3 rounded-lg"
               onClick={() => scrollToSection("projects")}
             >
               <Eye className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               View My Work
             </Button>
             <Button
+              asChild
               size="sm"
               variant="outline"
-              className="border-white/30 text-orange hover:bg-white hover:text-gray-900 transition-all duration-300 text-sm sm:text-base md:text-lg px-6 sm:px-8 md:px-10 py-2 sm:py-4 md:py-5 rounded-lg sm:rounded-xl backdrop-blur-sm"
+              className="w-full sm:w-auto border-white/30 text-orange hover:bg-white hover:text-gray-900 transition-all duration-300 text-sm sm:text-base px-5 sm:px-8 py-2 sm:py-3 rounded-lg backdrop-blur-sm"
             >
-              <Download className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-              Download Resume
+              <a href="/Karthikeya-resume.pdf" download>
+                <Download className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+                Download Resume
+              </a>
             </Button>
           </div>
 
