@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
@@ -69,90 +70,301 @@ const SkillsSection = () => {
     }, [skill.level, index]);
 
     return (
-      <div 
-        className="group relative p-6 bg-card hover:bg-card/80 rounded-2xl border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-lg hover:-translate-y-1"
-        style={{ animationDelay: `${index * 0.1}s` }}
+      <motion.div 
+        className="group relative p-6 bg-card hover:bg-card/80 rounded-2xl border border-border/50 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl"
+        initial={{ 
+          opacity: 0,
+          y: 30,
+          rotateX: -20
+        }}
+        whileInView={{ 
+          opacity: 1,
+          y: 0,
+          rotateX: 0
+        }}
+        transition={{ 
+          duration: 0.6,
+          delay: index * 0.1,
+          type: "spring",
+          stiffness: 100
+        }}
+        whileHover={{ 
+          rotateY: 5,
+          scale: 1.02,
+          translateZ: 20
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        style={{ transformStyle: 'preserve-3d' }}
       >
         <div className="flex items-start gap-4">
-          <div className={`p-3 rounded-xl ${gradient} text-white flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-            <span className="text-2xl">{skill.icon}</span>
-          </div>
+          <motion.div 
+            className={`p-3 rounded-xl ${gradient} text-white flex-shrink-0 shadow-lg`}
+            whileHover={{ 
+              scale: 1.15,
+              rotateY: 10,
+              rotateZ: 5
+            }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <motion.span 
+              className="text-2xl"
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              {skill.icon}
+            </motion.span>
+          </motion.div>
           
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
+              <motion.h4 
+                className="font-semibold text-foreground group-hover:text-primary transition-colors duration-300"
+                whileHover={{ scale: 1.05 }}
+              >
                 {skill.name}
-              </h4>
-              <Badge variant="secondary" className="ml-2">
-                {skill.level}%
-              </Badge>
+              </motion.h4>
+              <motion.div
+                whileHover={{ scale: 1.1, rotateY: 10 }}
+                transition={{ type: "spring" }}
+              >
+                <Badge variant="secondary" className="ml-2">
+                  {skill.level}%
+                </Badge>
+              </motion.div>
             </div>
             
-            <p className="text-sm text-muted-foreground mb-4 group-hover:text-muted-foreground/80 transition-colors duration-300">
+            <motion.p 
+              className="text-sm text-muted-foreground mb-4 group-hover:text-muted-foreground/80 transition-colors duration-300"
+              whileHover={{ x: 5 }}
+            >
               {skill.description}
-            </p>
+            </motion.p>
             
-            <div className="relative h-2 bg-muted rounded-full overflow-hidden">
-            <div
-                className={`absolute top-0 left-0 h-full ${gradient} rounded-full transition-all duration-1000 ease-out`}
-                style={{ width: `${progress}%` }}
+            <div className="relative h-2 bg-muted rounded-full overflow-hidden shadow-inner">
+              <motion.div
+                className={`absolute top-0 left-0 h-full ${gradient} rounded-full transition-all duration-1000 ease-out shadow-lg`}
+                initial={{ width: 0 }}
+                animate={{ width: `${progress}%` }}
+                transition={{ duration: 1.5, delay: index * 0.1 + 0.5 }}
+                style={{ 
+                  boxShadow: '0 0 10px rgba(255,255,255,0.3)',
+                  transform: 'translateZ(10px)'
+                }}
               />
 
               {isHovered && (
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                  animate={{ x: ['-100%', '100%'] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
               )}
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     );
   };
 
   return (
-    <section id="skills" className="py-20 relative overflow-hidden" ref={sectionRef}>
-      {/* Background Elements */}
+    <section 
+      id="skills" 
+      className="py-20 relative overflow-hidden" 
+      ref={sectionRef}
+      style={{ perspective: '1000px' }}
+    >
+      {/* 3D Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-muted/20 via-background to-muted/30" />
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+      
+      {/* 3D Floating Orbs */}
+      <motion.div 
+        className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"
+        animate={{
+          y: [0, -30, 0],
+          x: [0, 20, 0],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+      <motion.div 
+        className="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"
+        animate={{
+          y: [0, 30, 0],
+          x: [0, -20, 0],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* 3D Floating Particles */}
+      {[...Array(20)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 bg-primary/20 rounded-full"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            transform: `translateZ(${Math.random() * 200 - 100}px)`,
+          }}
+          animate={{
+            y: [0, -40, 0],
+            x: [0, Math.random() * 30 - 15, 0],
+            opacity: [0.2, 0.8, 0.2],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{
+            duration: 6 + Math.random() * 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
       
       <div className="container mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+        {/* 3D Header */}
+        <motion.div 
+          className="text-center mb-20"
+          initial={{ 
+            opacity: 0,
+            y: 50,
+            rotateX: -30
+          }}
+          whileInView={{ 
+            opacity: 1,
+            y: 0,
+            rotateX: 0
+          }}
+          transition={{ duration: 1, type: "spring", stiffness: 100 }}
+          viewport={{ once: true }}
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          <motion.div 
+            className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6"
+            whileHover={{ 
+              rotateY: 10,
+              scale: 1.05,
+              translateZ: 10
+            }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <motion.span 
+              className="w-2 h-2 bg-primary rounded-full"
+              animate={{ scale: [1, 1.5, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
             Tech Expertise
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
-            My Tech <span className="text-gradient">Arsenal</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          </motion.div>
+          <motion.h2 
+            className="text-4xl md:text-6xl font-bold text-foreground mb-6"
+            whileHover={{ 
+              rotateY: 5,
+              scale: 1.02
+            }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            My Tech <motion.span 
+              className="text-gradient"
+              whileHover={{ 
+                rotateY: 15,
+                scale: 1.05
+              }}
+            >
+              Arsenal
+            </motion.span>
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            viewport={{ once: true }}
+            whileHover={{ 
+              rotateX: 2,
+              scale: 1.01
+            }}
+          >
             A comprehensive toolkit of modern technologies I've mastered to build exceptional digital experiences
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        {/* Skills Categories */}
+        {/* 3D Skills Categories */}
         <div className="space-y-16">
           {skillCategories.map((category, categoryIndex) => (
-            <div 
+            <motion.div 
               key={category.title}
-              className="fade-in"
-              style={{ animationDelay: `${categoryIndex * 0.3}s` }}
+              initial={{ 
+                opacity: 0,
+                y: 50,
+                rotateX: -30
+              }}
+              whileInView={{ 
+                opacity: 1,
+                y: 0,
+                rotateX: 0
+              }}
+              transition={{ 
+                duration: 0.8,
+                delay: categoryIndex * 0.3,
+                type: "spring",
+                stiffness: 100
+              }}
+              viewport={{ once: true }}
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              {/* Category Header */}
-              <div className="text-center mb-12">
-                <div className={`inline-flex items-center gap-3 ${category.gradient} text-white px-6 py-3 rounded-2xl mb-4`}>
-                  <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+              {/* 3D Category Header */}
+              <motion.div 
+                className="text-center mb-12"
+                whileHover={{ 
+                  scale: 1.02,
+                  rotateY: 5
+                }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <motion.div 
+                  className={`inline-flex items-center gap-3 ${category.gradient} text-white px-6 py-3 rounded-2xl mb-4 shadow-lg`}
+                  whileHover={{ 
+                    scale: 1.05,
+                    rotateY: 10,
+                    translateZ: 20
+                  }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  style={{ transformStyle: 'preserve-3d' }}
+                >
+                  <motion.div 
+                    className="w-2 h-2 bg-white rounded-full"
+                    animate={{ scale: [1, 1.5, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
                   <h3 className="text-xl font-semibold">{category.title}</h3>
-                </div>
-                <p className="text-muted-foreground max-w-2xl mx-auto">
+                </motion.div>
+                <motion.p 
+                  className="text-muted-foreground max-w-2xl mx-auto"
+                  whileHover={{ 
+                    rotateX: 2,
+                    scale: 1.01
+                  }}
+                >
                   {category.description}
-                </p>
-              </div>
+                </motion.p>
+              </motion.div>
 
-              {/* Skills Grid */}
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* 3D Skills Grid */}
+              <motion.div 
+                className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: categoryIndex * 0.3 + 0.5, duration: 0.6 }}
+                viewport={{ once: true }}
+              >
                 {category.skills.map((skill, skillIndex) => (
                   <SkillCard
                     key={skill.name}
@@ -161,34 +373,94 @@ const SkillsSection = () => {
                     gradient={category.gradient}
                   />
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           ))}
         </div>
 
-        {/* Tech Stack Summary */}
-        <div className="mt-20 text-center">
-          <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl p-8 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-foreground mb-6">
+        {/* 3D Tech Stack Summary */}
+        <motion.div 
+          className="mt-20 text-center"
+          initial={{ 
+            opacity: 0,
+            y: 50,
+            rotateX: -30
+          }}
+          whileInView={{ 
+            opacity: 1,
+            y: 0,
+            rotateX: 0
+          }}
+          transition={{ duration: 1, type: "spring", stiffness: 100 }}
+          viewport={{ once: true }}
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          <motion.div 
+            className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl p-8 max-w-4xl mx-auto shadow-2xl"
+            whileHover={{ 
+              rotateY: 5,
+              scale: 1.02,
+              translateZ: 20
+            }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <motion.h3 
+              className="text-2xl font-bold text-foreground mb-6"
+              whileHover={{ 
+                scale: 1.05,
+                rotateY: 5
+              }}
+            >
               Full-Stack Development Capabilities
-            </h3>
+            </motion.h3>
             <div className="flex flex-wrap justify-center gap-3">
               {['HTML5', 'CSS3', 'JavaScript', 'React', 'Node.js', 'Python', 'SQLite', 'Git'].map((tech, index) => (
-                <Badge 
+                <motion.div
                   key={tech}
-                  variant="secondary" 
-                  className="px-4 py-2 text-sm hover:bg-primary hover:text-primary-foreground transition-colors duration-300 cursor-pointer"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  initial={{ 
+                    opacity: 0,
+                    scale: 0,
+                    rotateY: -90
+                  }}
+                  whileInView={{ 
+                    opacity: 1,
+                    scale: 1,
+                    rotateY: 0
+                  }}
+                  transition={{ 
+                    duration: 0.5,
+                    delay: index * 0.1,
+                    type: "spring",
+                    stiffness: 200
+                  }}
+                  whileHover={{ 
+                    scale: 1.1,
+                    rotateY: 10,
+                    translateZ: 10
+                  }}
+                  viewport={{ once: true }}
+                  style={{ transformStyle: 'preserve-3d' }}
                 >
-                  {tech}
-                </Badge>
+                  <Badge 
+                    variant="secondary" 
+                    className="px-4 py-2 text-sm hover:bg-primary hover:text-primary-foreground transition-colors duration-300 cursor-pointer shadow-lg"
+                  >
+                    {tech}
+                  </Badge>
+                </motion.div>
               ))}
             </div>
-            <p className="text-muted-foreground mt-6 max-w-2xl mx-auto">
+            <motion.p 
+              className="text-muted-foreground mt-6 max-w-2xl mx-auto"
+              whileHover={{ 
+                rotateX: 2,
+                scale: 1.01
+              }}
+            >
               Constantly learning and evolving with the latest technologies to deliver cutting-edge solutions
-            </p>
-          </div>
-        </div>
+            </motion.p>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
